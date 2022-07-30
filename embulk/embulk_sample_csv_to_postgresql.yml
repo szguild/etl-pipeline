@@ -1,0 +1,37 @@
+exec:
+  max_threads: 1
+  min_output_tasks: 1
+in:
+  type: file
+  path_prefix: '/Users/lmj/Documents/Workspace/etl-pipeline/sample.csv'
+  parser:
+    default_timezone: "Asia/Seoul"
+    charset: UTF-8
+    delimiter: ','
+    columns:
+    - {name: site_cd, type: string }
+    - {name: product_cd, type: string }
+    - {name: product_nm, type: string }
+    - {name: price, type: long }
+    - {name: url, type: string }
+ ##    - {name: insert_time, type: timestamp, format: '%Y-%m-%d %H:%M:%S' }
+    skip_header_lines: 1
+    type: csv
+out:
+  type: postgresql
+  host: localhost
+  port: 5432
+  user: postgres
+  password: "postgres"
+  database: postgres
+  auto_create_table: false
+  table: public.product
+  mode: insert_direct
+  column_options:
+    site_cd: {type: varchar(50) NOT NULL}
+    product_cd: {type: varchar(50) NOT NULL}
+    product_nm: {type: varchar(250)}
+    price: {type: long}
+    url: {type: varchar(250)}
+##    insert_time: {type: date NOT NULL}
+  default_timezone: "Asia/Seoul"
